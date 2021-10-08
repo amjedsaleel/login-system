@@ -5,7 +5,14 @@ from django.shortcuts import render, redirect
 
 
 def home(request):
-    print(request.session['sess_id'])
+    sess_id = request.COOKIES.get('sess_id')
+    try:
+        session_id = request.session['sess_id']
+    except KeyError:
+        return redirect('login')
+
+    if sess_id != request.session['sess_id']:
+        return redirect('login')
     return render(request, 'home.html')
 
 
