@@ -44,4 +44,4 @@ def logout(request):
     request.session.flush()
     response = redirect('login')
     response.delete_cookie('sess_id')
-    return redirect('login')
+    return response
