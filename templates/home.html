@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %} Home {% endblock %}
 {% block content %}
-    <h1>Home</h1>
-    <a href="{% url 'logout' %}">Logout</a>
-
+    <div class="container-fluid bg-dark">
+        <div class="container">
+            {% include 'includes/navbar.html' %}
+        </div>
+    </div>
 {% endblock %}
