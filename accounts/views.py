@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from django.contrib import messages
 
 # Create your views here.
 
@@ -36,7 +36,12 @@ def login(request):
             print('Logged')
             response = redirect('home')
             response.set_cookie('sess_id', session_id)
+            messages.success(request, 'You are successfully logged In')
             return response
+
+        messages.error(request, 'Invalid username or password')
+        return render(request, 'accounts/login.html')
+
     return render(request, 'accounts/login.html')
 
 
@@ -44,4 +49,5 @@ def logout(request):
     request.session.flush()
     response = redirect('login')
     response.delete_cookie('sess_id')
+    messages.info(request, 'You are successfully logged Out')
     return response
