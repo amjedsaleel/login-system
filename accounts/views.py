@@ -7,12 +7,13 @@ from django.shortcuts import render, redirect
 def home(request):
     sess_id = request.COOKIES.get('sess_id')
     try:
-        session_id = request.session['sess_id']
+        request.session['sess_id']
     except KeyError:
         return redirect('login')
 
     if sess_id != request.session['sess_id']:
         return redirect('login')
+
     return render(request, 'home.html')
 
 
@@ -29,7 +30,7 @@ def login(request):
         password = request.POST.get('password')
 
         if username == 'admin' and password == 'admin':
-            session_id = 'srzd242nd2iy5tp7r8x1za1rt3psxwuo'
+            session_id = 'srid242nd2iy5tp7r8x1za1rt3pseudo'
             request.session['sess_id'] = session_id
 
             print('Logged')
@@ -37,3 +38,10 @@ def login(request):
             response.set_cookie('sess_id', session_id)
             return response
     return render(request, 'accounts/login.html')
+
+
+def logout(request):
+    request.session.flush()
+    response = redirect('login')
+    response.delete_cookie('sess_id')
+    return redirect('login')
