@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.sessions.models import Session
 
 
 # Create your views here.
@@ -7,19 +8,21 @@ from django.contrib import messages
 
 def home(request):
     if request.session.has_key('sess_id'):
-        if request.COOKIES.get('sess_id') != request.session['sess_id']:
+        cookie = Session.objects.get(session_key=request.COOKIES.get('sessionid'))
+        data = cookie.get_decoded()
+        if data.get('sess_id') != request.session['sess_id']:
             return redirect('login')
         return render(request, 'home.html')
     return redirect('login')
 
 
 def login(request):
-    try:
-        sess_id = request.COOKIES.get('sess_id')
-        if sess_id == request.session['sess_id']:
+
+    if request.session.has_key('sess_id'):
+        cookie = Session.objects.get(session_key=request.COOKIES.get('sessionid'))
+        data = cookie.get_decoded()
+        if data.get('sess_id') == request.session['sess_id']:
             return redirect('home')
-    except KeyError:
-        print('User is not logged In')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -31,12 +34,11 @@ def login(request):
 
             print('Logged')
             response = redirect('home')
-            response.set_cookie('sess_id', session_id)
             messages.success(request, 'You are successfully logged In')
             return response
-
-        messages.error(request, 'Invalid username or password')
-        return render(request, 'accounts/login.html')
+        else:
+            messages.error(request, 'Invalid username or password')
+            return render(request, 'accounts/login.html')
 
     return render(request, 'accounts/login.html')
 
@@ -44,6 +46,5 @@ def login(request):
 def logout(request):
     request.session.flush()
     response = redirect('login')
-    response.delete_cookie('sess_id')
     messages.info(request, 'You are successfully logged Out')
     return response
