@@ -37,8 +37,12 @@ def login(request):
             messages.success(request, 'You are successfully logged In')
             return response
         else:
+            context = {
+                'username': username,
+                'password': password
+            }
             messages.error(request, 'Invalid username or password')
-            return render(request, 'accounts/login.html')
+            return render(request, 'accounts/login.html', context)
 
     return render(request, 'accounts/login.html')
 

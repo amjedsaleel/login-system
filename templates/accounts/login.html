@@ -14,11 +14,13 @@
                             {% csrf_token %}
                             <div class="col-md-12 py-2">
                                 <label for="inputEmail4" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="inputEmail4" name="username">
+                                <input type="text" class="form-control" id="inputEmail4" value="{{ username }}"
+                                       name="username">
                             </div>
                             <div class="col-md-12">
                                 <label for="inputPassword" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="inputPassword4" name="password">
+                                <input type="password" class="form-control" id="inputPassword4" value="{{ password }}"
+                                       name="password">
                             </div>
                             <div class="col-12 text-center">
                                 <input type="submit" class="btn btn-primary" value="Login">
