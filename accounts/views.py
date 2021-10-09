@@ -1,20 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
+
 # Create your views here.
 
 
 def home(request):
-    sess_id = request.COOKIES.get('sess_id')
-    try:
-        request.session['sess_id']
-    except KeyError:
-        return redirect('login')
-
-    if sess_id != request.session['sess_id']:
-        return redirect('login')
-
-    return render(request, 'home.html')
+    if request.session.has_key('sess_id'):
+        if request.COOKIES.get('sess_id') != request.session['sess_id']:
+            return redirect('login')
+        return render(request, 'home.html')
+    return redirect('login')
 
 
 def login(request):
