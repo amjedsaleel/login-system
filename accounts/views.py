@@ -45,6 +45,5 @@ def login(request):
 
 def logout(request):
     request.session.flush()
-    response = redirect('login')
     messages.info(request, 'You are successfully logged Out')
-    return response
+    return redirect('login')
