@@ -10,17 +10,17 @@
                             <h2>Login</h2>
                         </div>
                         {% include 'includes/messages.html' %}
-                        <form class="row g-3" action="{% url 'login' %}" method="post">
+                        <form class="row g-3" action="{% url 'login' %}" method="post" id="login-form">
                             {% csrf_token %}
                             <div class="col-md-12 py-2">
                                 <label for="inputEmail4" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="inputEmail4" value="{{ username }}"
-                                       name="username" required>
+                                       name="username">
                             </div>
                             <div class="col-md-12">
                                 <label for="inputPassword" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="inputPassword4" value="{{ password }}"
-                                       name="password" required>
+                                       name="password">
                             </div>
                             <div class="col-12 text-center">
                                 <input type="submit" class="btn btn-primary" value="Login">
@@ -31,4 +31,22 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $("#login-form").validate({
+                rules: {
+                    username: {
+                        required: true,
+                    },
+                    password: {
+                        required: true,
+                    },
+                }
+            })
+        })
+    </script>
+{% endblock %}
+

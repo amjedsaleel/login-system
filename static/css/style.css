@@ -9,3 +9,8 @@
     align-items: center;
     height: 100vh;
 }
+
+#inputEmail4-error,
+#inputPassword4-error {
+    color: red;
+}
