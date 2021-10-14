@@ -33,9 +33,8 @@ def login(request):
             request.session['sess_id'] = session_id
 
             print('Logged')
-            response = redirect('home')
             messages.success(request, 'You are successfully logged In')
-            return response
+            return redirect('home')
         else:
             context = {
                 'username': username,
