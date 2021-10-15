@@ -36,12 +36,13 @@ def login(request):
             messages.success(request, 'You are successfully logged In')
             return redirect('home')
         else:
-            context = {
-                'username': username,
-                'password': password
-            }
+            # context = {
+            #     'username': username,
+            #     'password': password
+            # }
             messages.error(request, 'Invalid username or password')
-            return render(request, 'accounts/login.html', context)
+            redirect('login')
+            # return render(request, 'accounts/login.html', context)
 
     return render(request, 'accounts/login.html')
 
